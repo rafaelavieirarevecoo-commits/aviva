@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aviva — Bienestar a tu manera</title>
+<meta name="description" content="Una comunidad para mujeres que quieren sentirse mejor, sin exigencias y acompañadas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Didact+Gothic&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root {
+  --olive: #B1A741;
+  --olive-dark: #8A8232;
+  --yellow: #F3E000;
+  --yellow-light: #FFF9CC;
+  --wine: #A22349;
+  --wine-dark: #7a1a37;
+  --wine-light: #c94d6e;
+  --bg: #FAF8F0;
+  --bg-alt: #F3EFE3;
+  --dark: #1A1715;
+  --dark-alt: #252220;
+  --text: #1A1715;
+  --text-light: #5A564D;
+  --text-muted: #8A8578;
+  --text-on-dark: #FAF8F0;
+  --fd: 'Playfair Display', serif;
+  --fb: Georgia, serif;
+  --fl: 'Didact Gothic', sans-serif;
+  --e: cubic-bezier(0.16,1,0.3,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--fb);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{cursor:pointer;font-family:var(--fl)}
+
+/* ═══════ PROGRESS ═══════ */
+.progress{position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,var(--olive),var(--yellow),var(--wine));z-index:9999}
+
+/* ═══════ NAV ═══════ */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:1.1rem 3rem;display:flex;justify-content:space-between;align-items:center;transition:all .5s var(--e)}
+.nav.scrolled{background:rgba(250,248,240,.95);backdrop-filter:blur(20px);padding:.7rem 3rem;box-shadow:0 1px 30px rgba(26,23,21,.06)}
+.nav__logo{font-family:var(--fd);font-size:1.7rem;font-weight:900;color:var(--wine);letter-spacing:.01em}
+.nav__links{display:flex;gap:2rem;list-style:none}
+.nav__links a{font-family:var(--fl);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--text-light);transition:color .3s;position:relative}
+.nav__links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--wine);transition:width .4s var(--e)}
+.nav__links a:hover{color:var(--wine)}
+.nav__links a:hover::after{width:100%}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px;z-index:1001}
+.hamburger span{display:block;width:24px;height:1.5px;background:var(--text);transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mob-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:var(--bg);z-index:999;flex-direction:column;justify-content:center;align-items:center;gap:2.5rem}
+.mob-menu.active{display:flex}
+.mob-menu a{font-family:var(--fd);font-size:2rem;color:var(--wine)}
+
+/* ═══════ HERO ═══════ */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:6rem 2rem;position:relative;overflow:hidden;background:var(--olive)}
+.hero__v{position:absolute;right:-6%;top:50%;transform:translateY(-50%);font-family:var(--fd);font-size:clamp(28rem,50vw,60rem);font-weight:900;color:var(--wine);opacity:.15;line-height:.75;pointer-events:none;user-select:none}
+.hero__content{position:relative;z-index:2;max-width:700px}
+.hero__logo{font-family:var(--fd);font-size:clamp(4.5rem,13vw,10rem);font-weight:900;line-height:.85;color:var(--wine);margin-bottom:1.5rem;opacity:0}
+.hero__tagline{font-family:var(--fl);font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--yellow);margin-bottom:2rem;opacity:0}
+.hero__text{font-family:var(--fb);font-size:clamp(.95rem,1.8vw,1.15rem);color:var(--bg);max-width:500px;margin:0 auto 3rem;line-height:1.8;opacity:0}
+.hero__btn{display:inline-block;padding:1rem 3.5rem;background:var(--wine);color:white;border-radius:9999px;font-family:var(--fl);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;border:2px solid var(--wine);transition:all .4s var(--e);opacity:0}
+.hero__btn:hover{background:transparent;color:var(--wine)}
+.hero__scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;z-index:2}
+.hero__scroll span{font-family:var(--fl);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow)}
+.hero__scroll-line{width:1px;height:35px;background:var(--yellow);position:relative;overflow:hidden}
+.hero__scroll-line::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--wine);animation:sd 2s ease-in-out infinite}
+@keyframes sd{0%{top:-100%}50%{top:100%}100%{top:100%}}
+
+/* ═══════ SECTIONS ═══════ */
+section{padding:7rem 2rem;position:relative}
+.inner{max-width:1200px;margin:0 auto}
+.ey{font-family:var(--fl);font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.8rem}
+.st{font-family:var(--fd);font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:700;line-height:1.1;margin-bottom:1rem}
+.st em{font-style:italic;color:var(--wine)}
+.section-text{font-size:1rem;color:var(--text-light);line-height:1.8;max-width:700px}
+.section-text.center{text-align:center;margin-left:auto;margin-right:auto}
+
+/* ═══════ BRAND STATEMENT ═══════ */
+.brand{background:var(--wine);color:var(--text-on-dark);display:flex;align-items:center;min-height:auto;padding:7rem 2rem}
+.brand .inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.brand .st{color:var(--bg);font-size:clamp(2rem,4vw,3.2rem)}
+.brand .st em{color:var(--yellow)}
+.brand__text{font-size:1rem;color:rgba(250,248,240,.8);line-height:1.9}
+.brand__accent{width:60px;height:3px;background:var(--yellow);margin-bottom:2rem}
+
+/* ═══════ ABOUT ═══════ */
+.about{background:var(--bg)}
+.about__header{text-align:center;margin-bottom:5rem}
+.about__mv{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:4rem}
+.mv-card{background:var(--bg-alt);border-radius:20px;padding:2.5rem;border-left:4px solid var(--wine)}
+.mv-card h3{font-family:var(--fd);font-size:1.4rem;font-weight:700;margin-bottom:1rem}
+.mv-card p{font-size:.95rem;color:var(--text-light);line-height:1.7}
+.founders{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:4rem}
+.founder{text-align:center;padding:2.5rem 1.5rem}
+.founder__photo{width:140px;height:140px;border-radius:50%;margin:0 auto 1.5rem;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:2.5rem;font-weight:900;color:white;border:3px solid var(--wine);overflow:hidden}
+.founder:nth-child(1) .founder__photo{background:var(--wine)}
+.founder:nth-child(2) .founder__photo{background:var(--olive)}
+.founder:nth-child(3) .founder__photo{background:var(--wine-dark)}
+.founder__name{font-family:var(--fd);font-size:1.4rem;font-weight:700;margin-bottom:.2rem}
+.founder__role{font-family:var(--fl);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--wine);margin-bottom:.8rem}
+.founder__desc{font-size:.9rem;color:var(--text-light);line-height:1.7}
+
+/* ═══════ COMMUNITY ═══════ */
+.community{background:var(--yellow-light)}
+.community__header{text-align:center;margin-bottom:2rem}
+.community__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:4rem}
+.comm-card{background:var(--bg);border-radius:20px;padding:2.5rem;border:1px solid rgba(26,23,21,.06);transition:all .4s var(--e)}
+.comm-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(26,23,21,.06);border-color:var(--olive)}
+.comm-card__num{font-family:var(--fd);font-size:2.2rem;font-weight:900;color:var(--wine);margin-bottom:.5rem}
+.comm-card__title{font-family:var(--fd);font-size:1.2rem;font-weight:700;margin-bottom:.8rem}
+.comm-card__desc{font-size:.9rem;color:var(--text-light);line-height:1.7}
+
+/* ═══════ SERVICES ═══════ */
+.services{background:var(--bg)}
+.services__header{text-align:center;margin-bottom:5rem}
+.services__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
+.service{border-radius:20px;overflow:hidden;background:var(--bg-alt);border:1px solid rgba(26,23,21,.06);transition:all .4s var(--e)}
+.service:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(26,23,21,.06)}
+.service__img{height:220px;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:2rem;font-weight:700;color:white}
+.service:nth-child(1) .service__img{background:linear-gradient(135deg,var(--olive),var(--olive-dark))}
+.service:nth-child(2) .service__img{background:linear-gradient(135deg,var(--wine),var(--wine-dark))}
+.service:nth-child(3) .service__img{background:linear-gradient(135deg,var(--wine-light),var(--wine))}
+.service:nth-child(4) .service__img{background:linear-gradient(135deg,var(--olive),var(--wine))}
+.service__body{padding:2rem}
+.service__title{font-family:var(--fd);font-size:1.4rem;font-weight:700;margin-bottom:.5rem}
+.service__desc{font-size:.9rem;color:var(--text-light);line-height:1.7}
+
+/* ═══════ EVENTS ═══════ */
+.events{background:var(--yellow-light)}
+.events__header{text-align:center;margin-bottom:5rem}
+.events__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.event{background:var(--bg);border-radius:20px;overflow:hidden;border:1px solid rgba(26,23,21,.06);transition:all .4s var(--e);display:flex;flex-direction:column}
+.event:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(26,23,21,.08)}
+.event__img{height:180px;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1rem;color:var(--text-muted);font-style:italic}
+.event__body{padding:2rem;flex:1;display:flex;flex-direction:column}
+.event__date{font-family:var(--fl);font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;color:var(--wine);margin-bottom:.5rem}
+.event__title{font-family:var(--fd);font-size:1.3rem;font-weight:700;margin-bottom:.5rem}
+.event__desc{font-size:.88rem;color:var(--text-light);line-height:1.6;margin-bottom:1.5rem;flex:1}
+.event__btn{display:inline-block;text-align:center;padding:.8rem 2rem;background:var(--wine);color:white;border-radius:9999px;font-family:var(--fl);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;transition:all .3s;border:2px solid var(--wine);align-self:flex-start}
+.event__btn:hover{background:transparent;color:var(--wine)}
+
+/* ═══════ TESTIMONIALS ═══════ */
+.testimonials{background:var(--bg)}
+.testimonials__header{text-align:center;margin-bottom:5rem}
+.testimonials__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:4rem}
+.testimonial{background:var(--bg-alt);border-radius:20px;padding:2.5rem;position:relative}
+.testimonial::before{content:'"';font-family:var(--fd);font-size:4rem;color:var(--wine);opacity:.3;position:absolute;top:.5rem;left:1.5rem;line-height:1}
+.testimonial__text{font-size:.95rem;color:var(--text-light);line-height:1.7;font-style:italic;margin-bottom:1.5rem;padding-top:1.5rem}
+.testimonial__author{font-family:var(--fl);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--wine)}
+.community-photos{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;border-radius:20px;overflow:hidden}
+.community-photos__item{aspect-ratio:1;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--text-muted);font-style:italic;transition:transform .3s}
+.community-photos__item:hover{transform:scale(1.05)}
+
+/* ═══════ BENEFITS / PARTNERS ═══════ */
+.benefits{background:var(--olive);color:var(--text-on-dark);overflow:hidden}
+.benefits__header{text-align:center;margin-bottom:4rem}
+.benefits__header .st{color:var(--bg)}
+.benefits__header .st em{color:var(--wine)}
+.benefits__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:5rem}
+.benefit{text-align:center;padding:2rem}
+.benefit__icon{font-size:1.5rem;margin-bottom:1rem;color:var(--wine)}
+.benefit__title{font-family:var(--fd);font-size:1.2rem;font-weight:700;color:var(--bg);margin-bottom:.5rem}
+.benefit__desc{font-size:.85rem;color:rgba(250,248,240,.7);line-height:1.7}
+.partners{padding-top:3rem;border-top:1px solid rgba(250,248,240,.15)}
+.partners__label{text-align:center;font-family:var(--fl);font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(250,248,240,.5);margin-bottom:2rem}
+.partners__track{display:flex;gap:4rem;animation:scroll-partners 20s linear infinite;width:max-content}
+.partners__logo{font-family:var(--fl);font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(250,248,240,.35);white-space:nowrap;padding:1rem 0}
+@keyframes scroll-partners{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ═══════ PODCAST ═══════ */
+.podcast{background:var(--wine);color:var(--text-on-dark);text-align:center}
+.podcast__inner{max-width:800px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+.podcast__photo{width:100%;max-width:500px;height:280px;background:var(--wine-dark);border-radius:20px;margin-bottom:3rem;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1rem;color:rgba(250,248,240,.4);font-style:italic}
+.podcast__title{font-family:var(--fd);font-size:clamp(2rem,4vw,3rem);font-weight:700;color:var(--bg);margin-bottom:1rem}
+.podcast__text{font-size:1rem;color:rgba(250,248,240,.7);margin-bottom:2rem;max-width:500px}
+.podcast__btn{display:inline-block;padding:1rem 3rem;background:var(--yellow);color:var(--dark);border-radius:9999px;font-family:var(--fl);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;transition:all .3s;border:2px solid var(--yellow)}
+.podcast__btn:hover{background:transparent;color:var(--yellow)}
+
+/* ═══════ CONTACT / FOOTER ═══════ */
+.footer{background:var(--olive);color:rgba(250,248,240,.7);padding:4rem 2rem;text-align:center}
+.footer__logo{font-family:var(--fd);font-size:1.5rem;font-weight:900;color:var(--wine);margin-bottom:.5rem}
+.footer__tl{font-style:italic;font-size:.95rem;margin-bottom:2rem;color:var(--bg)}
+.footer__social{display:flex;justify-content:center;gap:2rem;margin-bottom:2rem}
+.footer__social a{font-family:var(--fl);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,248,240,.6);transition:color .3s}
+.footer__social a:hover{color:var(--bg)}
+.footer__copy{font-size:.65rem;color:rgba(250,248,240,.3)}
+.footer__contact{margin-bottom:2rem}
+.footer__contact a{color:var(--bg);font-family:var(--fl);font-size:.8rem;letter-spacing:.05em;transition:color .3s}
+.footer__contact a:hover{color:var(--wine)}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media(max-width:1024px){.brand .inner{grid-template-columns:1fr}}
+@media(max-width:768px){
+  .nav__links{display:none}.hamburger{display:flex}
+  .founders,.community__grid,.services__grid,.events__grid,.testimonials__grid,.benefits__grid,.about__mv{grid-template-columns:1fr}
+  .community-photos{grid-template-columns:repeat(2,1fr)}
+  section{padding:4rem 1rem}
+  .hero__v{font-size:18rem;right:-20%}
+  .nav{padding:1rem 1.5rem}.nav.scrolled{padding:.7rem 1.5rem}
+  .brand .inner{gap:3rem}
+}
+</style>
+</head>
+<body>
+
+<div class="progress"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#" class="nav__logo">aviva</a>
+  <ul class="nav__links">
+    <li><a href="#nosotras">Nosotras</a></li>
+    <li><a href="#comunidad">Comunidad</a></li>
+    <li><a href="#experiencias">Experiencias</a></li>
+    <li><a href="#podcast">Podcast</a></li>
+    <li><a href="#beneficios">Beneficios</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob-menu">
+  <a href="#nosotras">Nosotras</a>
+  <a href="#comunidad">Comunidad</a>
+  <a href="#experiencias">Experiencias</a>
+  <a href="#podcast">Podcast</a>
+  <a href="#beneficios">Beneficios</a>
+  <a href="#contacto">Contacto</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__v">V</div>
+  <div class="hero__content">
+    <h1 class="hero__logo">aviva</h1>
+    <p class="hero__tagline">Bienestar a tu manera</p>
+    <p class="hero__text">Una comunidad para mujeres que quieren sentirse mejor, sin exigencias y acompañadas.</p>
+    <a href="#comunidad" class="hero__btn">Unirme</a>
+  </div>
+  <div class="hero__scroll"><span>Descubre</span><div class="hero__scroll-line"></div></div>
+</section>
+
+<!-- BRAND STATEMENT -->
+<section class="brand">
+  <div class="inner">
+    <div>
+      <div class="brand__accent"></div>
+      <h2 class="st">Por qué existe <em>Aviva</em></h2>
+    </div>
+    <div>
+      <p class="brand__text">AVIVA nació de tres mujeres distintas que, desde caminos muy diferentes, sintieron la misma necesidad: crear el espacio que a ellas les hubiera gustado encontrar antes.</p>
+      <br>
+      <p class="brand__text">Entre la exigencia, la desconexión, la presión por poder con todo y la sensación de tener que hacerlo solas, entendieron que muchas mujeres están cansadas de buscar versiones perfectas de sí mismas y solo necesitan un lugar donde puedan sentirse acompañadas, vistas y reales.</p>
+      <br>
+      <p class="brand__text">Desde el bienestar, el diseño, las experiencias, el movimiento, la sensibilidad y el crecimiento personal, decidieron crear una comunidad más humana que perfecta; un espacio donde el bienestar no tiene una sola forma y donde cada una puede construir la suya sin presión ni culpa.</p>
+      <br>
+      <p class="brand__text">AVIVA significa volver a encenderte: sentirte viva, presente y conectada contigo misma, pero también con otras mujeres que están aprendiendo, creciendo y sosteniéndose juntas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTRAS -->
+<section class="about" id="nosotras">
+  <div class="inner">
+    <div class="about__header">
+      <p class="ey">Quiénes somos</p>
+      <h2 class="st">Tres miradas, un solo <em>movimiento</em></h2>
+      <p class="section-text center" style="margin-top:1rem">No somos gurús. Somos tres mujeres distintas, en proceso, reales. Y eso es exactamente lo que queremos construir.</p>
+    </div>
+
+    <div class="founders">
+      <div class="founder">
+        <div class="founder__photo">A</div>
+        <h3 class="founder__name">Antonella Cartoni</h3>
+        <p class="founder__role">Visionaria Legal + Bienestar</p>
+        <p class="founder__desc">Abogada con una comunidad de moda y bienestar. Cree que el bienestar no se ve de una sola forma y que cada mujer lo vive a su manera.</p>
+      </div>
+      <div class="founder">
+        <div class="founder__photo">R</div>
+        <h3 class="founder__name">Rafaela Vieira</h3>
+        <p class="founder__role">Coach + Líder de Experiencias</p>
+        <p class="founder__desc">Coach con 5 años de experiencia en eventos y viajes para mujeres. Cree que ya tienes todo lo que necesitas — solo falta un espacio seguro para verlo.</p>
+      </div>
+      <div class="founder">
+        <div class="founder__photo">S</div>
+        <h3 class="founder__name">Sofía Cavallini</h3>
+        <p class="founder__role">Creativa + Emprendedora</p>
+        <p class="founder__desc">Diseñadora y emprendedora de larga trayectoria. Comunidad de deporte y desarrollo personal. Cree que cuidarte también es una decisión.</p>
+      </div>
+    </div>
+
+    <div class="about__mv">
+      <div class="mv-card">
+        <h3>Misión</h3>
+        <p>Crear espacios, experiencias, productos y herramientas que sostengan a las mujeres en su poder y sensibilidad, que eleven su consciencia y les permitan vivir en bienestar y seguras de sí mismas.</p>
+      </div>
+      <div class="mv-card">
+        <h3>Visión</h3>
+        <p>Ser un movimiento de miles de mujeres en Latinoamérica que eligieron una vida auténtica, donde cada una construye su propia versión de bienestar acompañada por una comunidad real y comprometida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMUNIDAD -->
+<section class="community" id="comunidad">
+  <div class="inner">
+    <div class="community__header">
+      <p class="ey">Comunidad</p>
+      <h2 class="st">Qué es <em>Aviva</em></h2>
+      <p class="section-text center" style="margin-top:1rem">Un ecosistema vivo donde las mujeres se encuentran, se acompañan y crecen juntas. No es un producto: es un lugar al que vuelves.</p>
+    </div>
+
+    <div class="community__grid">
+      <div class="comm-card">
+        <div class="comm-card__num">01</div>
+        <h3 class="comm-card__title">Ser parte de Aviva</h3>
+        <p class="comm-card__desc">Es pertenecer a un espacio donde no tienes que demostrar nada. Donde puedes llegar como estés — cansada, confundida, con ganas — y saber que ese lugar es tuyo.</p>
+      </div>
+      <div class="comm-card">
+        <div class="comm-card__num">02</div>
+        <h3 class="comm-card__title">Lo que vives dentro</h3>
+        <p class="comm-card__desc">Encuentros presenciales, talleres, herramientas de coaching, journaling, activaciones corporales, conversaciones reales y momentos de conexión profunda con otras mujeres.</p>
+      </div>
+      <div class="comm-card">
+        <div class="comm-card__num">03</div>
+        <h3 class="comm-card__title">Lo que encontrarás</h3>
+        <p class="comm-card__desc">Acompañamiento real, herramientas prácticas para tu día a día, una red de mujeres que te sostiene, contenido que nutre y experiencias que transforman desde la calidez.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCIAS / SERVICES -->
+<section class="services" id="experiencias">
+  <div class="inner">
+    <div class="services__header">
+      <p class="ey">Experiencias</p>
+      <h2 class="st">Lo que <em>creamos</em></h2>
+    </div>
+
+    <div class="services__grid">
+      <div class="service">
+        <div class="service__img">Foto próximamente</div>
+        <div class="service__body">
+          <h3 class="service__title">Workshops</h3>
+          <p class="service__desc">Talleres prácticos de autoconocimiento, coaching y herramientas de bienestar. Espacios íntimos donde te llevas algo concreto para tu vida.</p>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service__img">Foto próximamente</div>
+        <div class="service__body">
+          <h3 class="service__title">Encuentros</h3>
+          <p class="service__desc">Gatherings, noches sociales y reuniones temáticas. Momentos para conectar con otras mujeres en un ambiente relajado y sin presión.</p>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service__img">Foto próximamente</div>
+        <div class="service__body">
+          <h3 class="service__title">Wellness Mornings</h3>
+          <p class="service__desc">Mañanas de bienestar que combinan activación corporal, meditación, brunch y conversaciones que nutren cuerpo y alma.</p>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service__img">Foto próximamente</div>
+        <div class="service__body">
+          <h3 class="service__title">Viajes</h3>
+          <p class="service__desc">Experiencias inmersivas de varios días para mujeres que quieren ir más profundo, en lugares que inspiran y transforman.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRÓXIMOS EVENTOS -->
+<section class="events" id="eventos">
+  <div class="inner">
+    <div class="events__header">
+      <p class="ey">Próximos encuentros</p>
+      <h2 class="st">Eventos <em>Aviva</em></h2>
+    </div>
+
+    <div class="events__grid">
+      <div class="event">
+        <div class="event__img">Foto del evento</div>
+        <div class="event__body">
+          <p class="event__date">24 Mayo 2026 · Las Condes</p>
+          <h3 class="event__title">Refugio para tu Renacer</h3>
+          <p class="event__desc">Un día completo de taller de autoconocimiento, oráculo, sound healing, brunch, activación corporal y meditación. 12 cupos.</p>
+          <a href="#" class="event__btn">Inscríbete ahora</a>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event__img">Foto del evento</div>
+        <div class="event__body">
+          <p class="event__date">Próximamente · Santiago</p>
+          <h3 class="event__title">Próximo evento</h3>
+          <p class="event__desc">Estamos preparando algo especial. Déjanos tu correo y sé la primera en enterarte.</p>
+          <a href="#" class="event__btn">Inscríbete ahora</a>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event__img">Foto del evento</div>
+        <div class="event__body">
+          <p class="event__date">Próximamente · Santiago</p>
+          <h3 class="event__title">Próximo evento</h3>
+          <p class="event__desc">Estamos preparando algo especial. Déjanos tu correo y sé la primera en enterarte.</p>
+          <a href="#" class="event__btn">Inscríbete ahora</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="testimonials">
+  <div class="inner">
+    <div class="testimonials__header">
+      <p class="ey">Testimonios</p>
+      <h2 class="st">Lo que dicen de <em>nosotras</em></h2>
+    </div>
+
+    <div class="testimonials__grid">
+      <div class="testimonial">
+        <p class="testimonial__text">Espacio para testimonio real de una participante. Acá irá su experiencia en primera persona.</p>
+        <p class="testimonial__author">— Nombre participante</p>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial__text">Espacio para testimonio real de una participante. Acá irá su experiencia en primera persona.</p>
+        <p class="testimonial__author">— Nombre participante</p>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial__text">Espacio para testimonio real de una participante. Acá irá su experiencia en primera persona.</p>
+        <p class="testimonial__author">— Nombre participante</p>
+      </div>
+    </div>
+
+    <div class="community-photos">
+      <div class="community-photos__item">foto 1</div>
+      <div class="community-photos__item">foto 2</div>
+      <div class="community-photos__item">foto 3</div>
+      <div class="community-photos__item">foto 4</div>
+      <div class="community-photos__item">foto 5</div>
+      <div class="community-photos__item">foto 6</div>
+      <div class="community-photos__item">foto 7</div>
+      <div class="community-photos__item">foto 8</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS + PARTNERS -->
+<section class="benefits" id="beneficios">
+  <div class="inner">
+    <div class="benefits__header">
+      <p class="ey" style="color:rgba(250,248,240,.5)">Beneficios</p>
+      <h2 class="st">Por qué ser parte de <em>Aviva</em></h2>
+    </div>
+
+    <div class="benefits__grid">
+      <div class="benefit">
+        <div class="benefit__icon">✦</div>
+        <h3 class="benefit__title">Comunidad real</h3>
+        <p class="benefit__desc">Una red de mujeres que te sostiene, te inspira y te recuerda quién eres cuando se te olvida.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit__icon">✦</div>
+        <h3 class="benefit__title">Herramientas prácticas</h3>
+        <p class="benefit__desc">Coaching, journaling, talleres y recursos que puedes usar en tu día a día para sentirte mejor.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit__icon">✦</div>
+        <h3 class="benefit__title">Experiencias únicas</h3>
+        <p class="benefit__desc">Eventos, retiros y encuentros diseñados para conectar profundamente contigo y con otras.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit__icon">✦</div>
+        <h3 class="benefit__title">Contenido que nutre</h3>
+        <p class="benefit__desc">Reflexiones, podcast y contenido semanal que te acompaña sin exigirte ser alguien que no eres.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit__icon">✦</div>
+        <h3 class="benefit__title">Acceso a marcas amigas</h3>
+        <p class="benefit__desc">Descuentos y beneficios exclusivos con marcas que comparten nuestros valores de bienestar.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit__icon">✦</div>
+        <h3 class="benefit__title">Tu ritmo, tu manera</h3>
+        <p class="benefit__desc">Sin presión, sin comparación, sin exigencia. Participas como quieres, cuando quieres.</p>
+      </div>
+    </div>
+
+    <div class="partners">
+      <p class="partners__label">Marcas amigas</p>
+      <div style="overflow:hidden">
+        <div class="partners__track">
+          <span class="partners__logo">Marca Partner</span>
+          <span class="partners__logo">Wellness Studio</span>
+          <span class="partners__logo">Yoga Space</span>
+          <span class="partners__logo">Café Orgánico</span>
+          <span class="partners__logo">Skincare Natural</span>
+          <span class="partners__logo">Fitness Lab</span>
+          <span class="partners__logo">Nutrición Holística</span>
+          <span class="partners__logo">Sound Healing CL</span>
+          <span class="partners__logo">Marca Partner</span>
+          <span class="partners__logo">Wellness Studio</span>
+          <span class="partners__logo">Yoga Space</span>
+          <span class="partners__logo">Café Orgánico</span>
+          <span class="partners__logo">Skincare Natural</span>
+          <span class="partners__logo">Fitness Lab</span>
+          <span class="partners__logo">Nutrición Holística</span>
+          <span class="partners__logo">Sound Healing CL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PODCAST -->
+<section class="podcast" id="podcast">
+  <div class="podcast__inner">
+    <div class="podcast__photo">Foto de nosotras tres</div>
+    <h2 class="podcast__title">Escucha nuestro podcast cada semana</h2>
+    <p class="podcast__text">Conversaciones reales sobre bienestar, crecimiento personal, emprendimiento y todo lo que nos mueve como mujeres.</p>
+    <a href="#" class="podcast__btn">Escuchar ahora</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="contacto">
+  <p class="footer__logo">aviva</p>
+  <p class="footer__tl">Bienestar a tu manera.</p>
+  <div class="footer__contact">
+    <a href="mailto:hola@aviva.cl">hola@aviva.cl</a>
+  </div>
+  <div class="footer__social">
+    <a href="#">Instagram</a>
+    <a href="#">Spotify</a>
+    <a href="#">YouTube</a>
+    <a href="#">TikTok</a>
+  </div>
+  <p class="footer__copy">© 2026 Aviva. Hecho con amor por Antonella, Sofía y Rafaela. Santiago de Chile.</p>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Progress
+gsap.to('.progress',{width:'100%',ease:'none',scrollTrigger:{trigger:'body',start:'top top',end:'bottom bottom',scrub:.3}});
+
+// Nav
+ScrollTrigger.create({start:'top -80',onUpdate:s=>{document.querySelector('.nav').classList.toggle('scrolled',s.progress>0)}});
+
+// Hero
+const tl=gsap.timeline({delay:.3});
+tl.fromTo('.hero__logo',{opacity:0,y:60},{opacity:1,y:0,duration:1.2,ease:'power2.out'})
+.fromTo('.hero__tagline',{opacity:0},{opacity:1,duration:.8,ease:'power2.out'},'-=.5')
+.fromTo('.hero__text',{opacity:0,y:20},{opacity:1,y:0,duration:.8,ease:'power2.out'},'-=.3')
+.fromTo('.hero__btn',{opacity:0,y:15},{opacity:1,y:0,duration:.6,ease:'power2.out'},'-=.2')
+.to('.hero__scroll',{opacity:1,duration:.5},'-=.1');
+
+// Scroll animations
+gsap.utils.toArray('.brand__accent,.st,.ey,.section-text,.brand__text,.about__header,.community__header,.services__header,.events__header,.testimonials__header,.benefits__header,.podcast__inner,.mv-card').forEach(el=>{
+  gsap.fromTo(el,{opacity:0,y:25},{opacity:1,y:0,duration:.7,scrollTrigger:{trigger:el,start:'top 85%'}});
+});
+
+// Cards
+gsap.utils.toArray('.founder,.comm-card,.service,.event,.testimonial,.benefit,.community-photos__item').forEach((el,i)=>{
+  gsap.fromTo(el,{opacity:0,y:35},{opacity:1,y:0,duration:.6,delay:(i%4)*.08,scrollTrigger:{trigger:el,start:'top 88%'}});
+});
+
+// Mobile menu
+const hb=document.querySelector('.hamburger'),mm=document.querySelector('.mob-menu');
+hb.addEventListener('click',()=>{hb.classList.toggle('active');mm.classList.toggle('active');document.body.style.overflow=mm.classList.contains('active')?'hidden':''});
+mm.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>{hb.classList.remove('active');mm.classList.remove('active');document.body.style.overflow=''})});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})})});
+</script>
+</body>
+</html>
